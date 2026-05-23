@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { authMiddleware } from "./middleware/auth.middleware.js";
 
 import { pool } from "./db.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -16,6 +17,13 @@ app.use(express.json());
 // Test básico
 app.get("/", (req, res) => {
   res.json({ message: "Barber Booking API running 🚀" });
+});
+
+app.get("/me", authMiddleware, (req, res) => {
+  res.json({
+    message: "Private route accessed ✅",
+    user: req.user
+  });
 });
 
 // Test conexión DB
