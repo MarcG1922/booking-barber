@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { authMiddleware } from "./middleware/auth.middleware.js";
+import servicesRoutes from "./routes/services.routes.js";
+import bookingsRoutes from "./routes/bookings.routes.js";
 
 import { pool } from "./db.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -10,28 +12,26 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Test básico
+
 app.get("/", (req, res) => {
-  res.json({ message: "Barber Booking API running 🚀" });
+  res.json({ message: "Barber Booking API running" });
 });
 
 app.get("/me", authMiddleware, (req, res) => {
   res.json({
-    message: "Private route accessed ✅",
+    message: "Private route accessed",
     user: req.user
   });
 });
 
-// Test conexión DB
 app.get("/db-test", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
     res.json({
-      message: "DB connected ✅",
+      message: "DB connected successfully",
       time: result.rows[0]
     });
   } catch (err) {
@@ -41,12 +41,12 @@ app.get("/db-test", async (req, res) => {
   }
 });
 
-// Routes
 app.use("/auth", authRoutes);
+app.use("/services", servicesRoutes);
+app.use("/bookings", bookingsRoutes);
 
-// Start server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} 🚀`);
+  console.log(`Server running on port ${PORT} `);
 });
