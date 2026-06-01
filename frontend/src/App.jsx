@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Services from "./pages/Services";
+import MyBookings from "./pages/MyBookings";
 
 function App() {
 
@@ -32,6 +33,11 @@ function App() {
           path="/services"
           element={token ? <Services /> : <Navigate to="/" />}
         />
+
+      <Route
+  path="/my-bookings"
+  element={token ? <MyBookings /> : <Navigate to="/" />}
+/>
 
       </Routes>
     </BrowserRouter>

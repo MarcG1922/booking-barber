@@ -16,6 +16,10 @@ function Dashboard() {
         <Link to="/services">
           Ver servicios
         </Link>
+
+        <Link to="/my-bookings">
+  Mis reservas
+</Link>
       </div>
 
       <button onClick={logout}>
