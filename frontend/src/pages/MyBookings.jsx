@@ -23,6 +23,24 @@ function MyBookings() {
 
   }, []);
 
+  const cancelBooking = async (id) => {
+    try {
+
+      await api.patch(`/bookings/${id}/cancel`);
+
+      setBookings(
+        bookings.map((booking) =>
+          booking.id === id
+            ? { ...booking, status: "cancelled" }
+            : booking
+        )
+      );
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <h1>Mis reservas 💈</h1>
@@ -57,6 +75,14 @@ function MyBookings() {
           <p>
             ⏱ {b.duration} min
           </p>
+
+          {b.status !== "cancelled" && (
+            <button
+              onClick={() => cancelBooking(b.id)}
+            >
+              Cancelar reserva
+            </button>
+          )}
 
         </div>
       ))}
