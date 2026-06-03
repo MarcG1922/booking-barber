@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import Navbar from "../components/Navbar";
 
 function MyBookings() {
 
@@ -43,6 +44,7 @@ function MyBookings() {
 
   return (
     <div>
+      <Navbar />
       <h1>Mis reservas 💈</h1>
 
       {bookings.length === 0 && (
@@ -50,8 +52,9 @@ function MyBookings() {
       )}
 
       {bookings.map((b) => (
-        <div
-          key={b.id}
+       <div
+  className="card"
+  key={b.id}
           style={{
             border: "1px solid black",
             padding: "10px",

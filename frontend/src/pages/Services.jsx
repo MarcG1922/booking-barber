@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import Navbar from "../components/Navbar";
 
 function Services() {
 
@@ -45,12 +46,14 @@ function Services() {
 
   return (
     <div>
+      <Navbar />
       <h1>Servicios 💈</h1>
 
       {/* LISTA SERVICIOS */}
       {services.map((service) => (
         <div
-          key={service.id}
+  className="card"
+  key={service.id}
           style={{
             border: "1px solid black",
             padding: "10px",
