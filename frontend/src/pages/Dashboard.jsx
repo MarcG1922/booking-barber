@@ -1,11 +1,39 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import api from "../services/api";
 
 function Dashboard() {
 
+  const [stats, setStats] = useState({
+    activeBookings: 0,
+    totalServices: 0,
+    nextBooking: null
+  });
+
+  useEffect(() => {
+
+    const fetchStats = async () => {
+      try {
+
+        const res = await api.get(
+          "/bookings/stats/dashboard"
+        );
+
+        setStats(res.data);
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchStats();
+
+  }, []);
+
   return (
-    <div>
-<div className="container">
+    <div className="container">
+
       <Navbar />
 
       <h1>Dashboard 💈</h1>
@@ -16,33 +44,37 @@ function Dashboard() {
         style={{
           display: "flex",
           gap: "20px",
+          flexWrap: "wrap",
           marginTop: "20px"
         }}
       >
-        <div
-          style={{
-            border: "1px solid #ddd",
-            padding: "20px",
-            minWidth: "150px"
-          }}
-        >
-          <h3>Servicios</h3>
-          <p>Gestiona tus citas</p>
+
+        <div className="card">
+          <h3>Reservas activas</h3>
+          <p>{stats.activeBookings}</p>
         </div>
 
-        <div
-          style={{
-            border: "1px solid #ddd",
-            padding: "20px",
-            minWidth: "150px"
-          }}
-        >
-          <h3>Reservas</h3>
-          <p>Consulta tus citas</p>
+        <div className="card">
+          <h3>Servicios disponibles</h3>
+          <p>{stats.totalServices}</p>
         </div>
+
+        <div className="card">
+          <h3>Próxima cita</h3>
+
+          <p>
+            {stats.nextBooking
+              ? new Date(
+                  stats.nextBooking
+                ).toLocaleString()
+              : "Sin reservas"}
+          </p>
+        </div>
+
       </div>
 
       <div style={{ marginTop: "20px" }}>
+
         <Link to="/services">
           Ir a servicios
         </Link>
@@ -53,8 +85,9 @@ function Dashboard() {
         <Link to="/my-bookings">
           Ver mis reservas
         </Link>
+
       </div>
-</div>
+
     </div>
   );
 }

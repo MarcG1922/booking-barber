@@ -139,4 +139,53 @@ router.patch("/:id/cancel", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/stats/dashboard", authMiddleware, async (req, res) => {
+  try {
+
+    const bookingsResult = await pool.query(
+      `
+      SELECT COUNT(*) as total
+      FROM bookings
+      WHERE user_id = $1
+      AND status != 'cancelled'
+      `,
+      [req.user.id]
+    );
+
+    const nextBookingResult = await pool.query(
+      `
+      SELECT booking_date
+      FROM bookings
+      WHERE user_id = $1
+      AND status != 'cancelled'
+      AND booking_date >= NOW()
+      ORDER BY booking_date ASC
+      LIMIT 1
+      `,
+      [req.user.id]
+    );
+
+    const servicesResult = await pool.query(
+      `
+      SELECT COUNT(*) as total
+      FROM services
+      `
+    );
+
+    res.json({
+      activeBookings: Number(bookingsResult.rows[0].total),
+      totalServices: Number(servicesResult.rows[0].total),
+      nextBooking:
+        nextBookingResult.rows.length > 0
+          ? nextBookingResult.rows[0].booking_date
+          : null
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      error: err.message
+    });
+  }
+});
+
 export default router;
