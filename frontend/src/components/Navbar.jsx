@@ -7,28 +7,54 @@ function Navbar() {
     window.location.href = "/";
   };
 
-return (
-  <nav
-    style={{
-      backgroundColor: "white",
-      padding: "15px",
-      marginBottom: "20px",
-      boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+  return (
+    <nav
+      style={{
+        backgroundColor: "#111827",
+        color: "white",
 
-      display: "flex",
-      gap: "20px",
-      alignItems: "center"
-    }}
-  >
-      <Link to="/dashboard">Dashboard</Link>
+        padding: "20px",
 
-      <Link to="/services">Servicios</Link>
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
 
-      <Link to="/my-bookings">Mis reservas</Link>
+        borderRadius: "12px",
+        marginBottom: "30px"
+      }}
+    >
+      <div
+        style={{
+          fontSize: "22px",
+          fontWeight: "bold"
+        }}
+      >
+        💈 Barber Booking
+      </div>
 
-      <button onClick={logout}>
-        Logout
-      </button>
+      <div
+        style={{
+          display: "flex",
+          gap: "25px",
+          alignItems: "center"
+        }}
+      >
+        <Link to="/dashboard">
+          Dashboard
+        </Link>
+
+        <Link to="/services">
+          Servicios
+        </Link>
+
+        <Link to="/my-bookings">
+          Mis Reservas
+        </Link>
+
+        <button onClick={logout}>
+          Logout
+        </button>
+      </div>
     </nav>
   );
 }

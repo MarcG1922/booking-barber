@@ -40,36 +40,33 @@ function Dashboard() {
 
       <p>Bienvenido a Barber Booking</p>
 
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-          flexWrap: "wrap",
-          marginTop: "20px"
-        }}
-      >
+  <div
+  style={{
+    display: "flex",
+    gap: "20px",
+    flexWrap: "wrap",
+    marginTop: "30px"
+  }}
+>
+ <div className="card">
+  <h3>📅 Reservas activas</h3>
+  <p>{stats.activeBookings}</p>
+</div>
 
-        <div className="card">
-          <h3>Reservas activas</h3>
-          <p>{stats.activeBookings}</p>
-        </div>
+<div className="card">
+  <h3>💈 Servicios disponibles</h3>
+  <p>{stats.totalServices}</p>
+</div>
 
-        <div className="card">
-          <h3>Servicios disponibles</h3>
-          <p>{stats.totalServices}</p>
-        </div>
+<div className="card">
+  <h3>⏰ Próxima cita</h3>
 
-        <div className="card">
-          <h3>Próxima cita</h3>
-
-          <p>
-            {stats.nextBooking
-              ? new Date(
-                  stats.nextBooking
-                ).toLocaleString()
-              : "Sin reservas"}
-          </p>
-        </div>
+  <p>
+    {stats.nextBooking
+      ? new Date(stats.nextBooking).toLocaleString()
+      : "Sin reservas"}
+  </p>
+</div>
 
       </div>
 

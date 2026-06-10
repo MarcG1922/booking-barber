@@ -42,33 +42,40 @@ function MyBookings() {
     }
   };
 
+  const getStatusEmoji = (status) => {
+
+    if (status === "cancelled") return "🔴";
+    if (status === "pending") return "🟡";
+
+    return "🟢";
+  };
+
   return (
-    <div>
+    <div className="container">
+
       <Navbar />
+
       <h1>Mis reservas 💈</h1>
 
       {bookings.length === 0 && (
-        <p>No tienes reservas todavía</p>
+        <div className="card">
+          <p>No tienes reservas todavía.</p>
+        </div>
       )}
 
       {bookings.map((b) => (
-       <div
-  className="card"
-  key={b.id}
-          style={{
-            border: "1px solid black",
-            padding: "10px",
-            marginBottom: "10px"
-          }}
+        <div
+          className="card"
+          key={b.id}
         >
-          <h3>{b.service_name}</h3>
+          <h3>💈 {b.service_name}</h3>
 
           <p>
             📅 {new Date(b.booking_date).toLocaleString()}
           </p>
 
           <p>
-            ⏳ {b.status}
+            {getStatusEmoji(b.status)} Estado: {b.status}
           </p>
 
           <p>
@@ -89,6 +96,7 @@ function MyBookings() {
 
         </div>
       ))}
+
     </div>
   );
 }
