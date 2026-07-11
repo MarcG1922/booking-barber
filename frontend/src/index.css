@@ -58,3 +58,17 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  box-sizing: border-box;
+}
+
+h1 {
+  letter-spacing: -1px;
+}

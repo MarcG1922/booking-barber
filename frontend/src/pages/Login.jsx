@@ -1,54 +1,129 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+
     e.preventDefault();
 
     try {
+
       const res = await api.post("/auth/login", {
         email,
         password
       });
+      
+localStorage.setItem(
+  "token",
+  res.data.token
+);
 
-      localStorage.setItem("token", res.data.token);
+window.location.href = "/dashboard";
 
-      navigate("/dashboard");
+    } catch (error) {
 
-    } catch (err) {
-      console.error(err);
-      alert("Error login");
+      alert(
+        error.response?.data?.error ||
+        "Error iniciando sesión"
+      );
+
     }
   };
 
+
   return (
-    <div>
-      <h1>Login</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    >
 
-        <input
-          type="password"
-          placeholder="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <div
+        className="card"
+        style={{
+          width: "350px",
+          textAlign: "center"
+        }}
+      >
 
-        <button type="submit">Login</button>
-      </form>
+        <h1>
+           Barber Booking
+        </h1>
+
+        <p>
+          Inicia sesión para gestionar tus citas
+        </p>
+
+
+        <form onSubmit={handleLogin}>
+
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
+
+
+          <br />
+          <br />
+
+
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
+
+
+          <br />
+          <br />
+
+
+          <button type="submit">
+            Entrar 
+          </button>
+
+
+        </form>
+
+
+        <p style={{marginTop:"20px"}}>
+
+          ¿No tienes cuenta?
+
+          <br />
+
+          <Link to="/register">
+            Crear cuenta
+          </Link>
+
+        </p>
+
+
+      </div>
+
     </div>
+
   );
 }
+
 
 export default Login;
