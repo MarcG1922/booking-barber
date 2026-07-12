@@ -32,7 +32,7 @@ const handleLogin = async (e) => {
       localStorage.getItem("token")
     );
 
-    navigate("/dashboard");
+   window.location.href = "/dashboard";
 
   } catch (error) {
 
