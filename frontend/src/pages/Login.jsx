@@ -9,33 +9,42 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
+const handleLogin = async (e) => {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
+  try {
 
-      const res = await api.post("/auth/login", {
-        email,
-        password
-      });
-      
-localStorage.setItem(
-  "token",
-  res.data.token
-);
+    const res = await api.post("/auth/login", {
+      email,
+      password
+    });
 
-navigate("/dashboard");
+    console.log("LOGIN RESPONSE:", res.data);
 
-    } catch (error) {
+    localStorage.setItem(
+      "token",
+      res.data.token
+    );
 
-      alert(
-        error.response?.data?.error ||
-        "Error iniciando sesión"
-      );
+    console.log(
+      "TOKEN GUARDADO:",
+      localStorage.getItem("token")
+    );
 
-    }
-  };
+    navigate("/dashboard");
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      error.response?.data?.error ||
+      "Error iniciando sesión"
+    );
+
+  }
+};
 
 
   return (
